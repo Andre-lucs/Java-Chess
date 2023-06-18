@@ -13,4 +13,8 @@ public class Board{
 
 	public Piece[][] getPieces(){ return pieces; }
 
+	public void placePiece(Piece piece, Position pos){
+		pieces[pos.getRow()][pos.getCollum()] = piece;
+		piece.position = pos;
+	}
 }
