@@ -8,7 +8,7 @@ public class ChessPosition{
 
 	public ChessPosition(char collum, int row){
 		if(collum < 'a' || collum > 'h' || row < 1 || row > 8){
-			throw new ChessExeption("Invalid ChessPosition it should be around a1 and h8.");
+			throw new ChessException("Invalid ChessPosition it should be around a1 and h8.");
 		}
 		this.collum = collum;
 		this.row = row;
