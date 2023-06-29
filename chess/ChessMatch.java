@@ -33,23 +33,31 @@ public class ChessMatch{
 		Position source = origin.toPosition();
 		Position target = destiny.toPosition();
 		ValidateSourcePosition(source);
+		ValidateTargetPosition(source, target);
 		Piece capturedPiece = MakeMove(source, target);
 		return (ChessPiece) capturedPiece;
 	}
 
 	private Piece MakeMove(Position origin, Position destiny){
-		Piece movePiece = board.getPiece(origin);
-		Piece capturedPiece = board.getPiece(destiny);
+		ChessPiece movePiece = (ChessPiece) board.getPiece(origin);
+		ChessPiece capturedPiece = (ChessPiece) board.getPiece(destiny);
+		if(capturedPiece != null && capturedPiece.getColor() == movePiece.getColor()) throw new ChessException("Cant eat friend pieces.");
 		board.removePiece(movePiece);
 		board.removePiece(capturedPiece);
 		board.placePiece(movePiece, destiny);
 		return capturedPiece;
 	}
+
 	public void placeNewPiece(char collum, int row, ChessPiece piece){
 		board.placePiece(piece, new ChessPosition(collum, row).toPosition());
 	}
 
 	private void ValidateSourcePosition(Position pos){
 		if(!board.thereIsAPiece(pos)) throw new ChessException("There is no piece on source position.");
+		if(!board.getPiece(pos).isThereAnyPossibleMove()) throw new ChessException("The piece is locked.");
+	}
+
+	private void ValidateTargetPosition(Position origin, Position target){
+		if(!board.getPiece(origin).possibleMove(target)) throw new ChessException("The chosen piece cant move to that position");
 	}
 }
